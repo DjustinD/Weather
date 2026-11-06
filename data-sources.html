@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111d32">
+  <title>Data &amp; methodology | Atmosphere</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script type="module" src="assets/js/sources.js"></script>
+</head>
+<body>
+  <header class="site-header"><a class="brand" href="index.html"><span class="brand-mark">✳</span> atmosphere<span class="brand-dot">.</span></a><nav aria-label="Main navigation"><a href="index.html">The dashboard</a><a class="nav-active" href="data-sources.html" aria-current="page">Data &amp; methodology <span aria-hidden="true">↗</span></a><label class="language-switch"><span lang="en-CA">EN</span><input id="language-toggle" type="checkbox" role="switch" aria-label="Français (Canada) / English (Canada)"><span class="switch-track" aria-hidden="true"></span><span lang="fr-CA">FR</span></label></nav></header>
+  <main class="sources-page">
+    <a class="back-link" href="index.html">← Back to the dashboard</a>
+    <span class="section-kicker">THE DETAILS BEHIND THE DATA</span>
+    <h1>Good stories start<br><em>with good sources.</em></h1>
+    <p class="sources-lede">A little more about where the numbers come from, what they mean, and what they don't.</p>
+    <div class="source-content">
+      <section><span class="section-kicker">01 / WEATHER</span><h2>Fifty years of perspective<span class="accent">.</span></h2><p>Temperature, precipitation, sunshine and wind are retrieved from the <a href="https://open-meteo.com/en/docs/historical-weather-api">Open-Meteo Historical Weather API</a>, using ECMWF's ERA5 reanalysis. The dashboard requests the last 50 complete calendar years (ERA5 begins in 1940), using each city's local time zone.</p><p>ERA5 combines observations with a physical model on a grid; it is not a continuous record from a station in the city. The selected grid cell and elevation may differ from the city center. Older and newer estimates can have different accuracy. Sunshine duration is an estimate based on solar radiation; wind is the daily maximum of 10-meter wind speed, not an average or gust speed. Precipitation includes rain and snow expressed as liquid water equivalent.</p><p>Source: Hersbach et al., <a href="https://doi.org/10.24381/cds.adbb2d47">ERA5 hourly data on single levels from 1940 to present</a>, Copernicus Climate Change Service Climate Data Store; accessed through Open-Meteo. See also <a href="https://doi.org/10.5281/zenodo.7970649">Open-Meteo's software citation</a>.</p></section>
+      <section><span class="section-kicker">02 / AIR QUALITY</span><h2>A shorter, separate record<span class="accent">.</span></h2><p>Fine particulate matter (PM2.5) comes from the <a href="https://open-meteo.com/en/docs/air-quality-api">Open-Meteo Air Quality API</a>, using the Copernicus Atmosphere Monitoring Service (CAMS) global model. Its global archive starts in August 2022, so the PM2.5 chart is <strong>not</strong> based on 50 years. We request data through the last complete calendar year; 2022 is a partial year.</p><p>Hourly PM2.5 values are averaged into local calendar days when at least 18 hourly values are present. Missing values are excluded. PM2.5 is one pollutant, not a complete air-quality index. These are modeled grid estimates and can differ from local measurements; they should not be used for health or safety decisions.</p><p>Source: <a href="https://atmosphere.copernicus.eu/">Copernicus Atmosphere Monitoring Service (CAMS)</a>, accessed through Open-Meteo. Check local air-quality authorities for current conditions and guidance.</p></section>
+      <section id="methodology"><span class="section-kicker">03 / METHODOLOGY</span><h2>Reading between the lines<span class="accent">.</span></h2><p>The x-axis is a single calendar year, not a timeline of individual years. For each calendar day, we pool available daily values within a 31-day window centered on that day across all available years. The line is their arithmetic mean; the shaded area is the mean plus or minus one population standard deviation of those daily values. For variables that cannot be negative, the lower edge is clipped to zero. This band describes variability, not uncertainty or a confidence interval.</p><p>The window wraps across New Year. February 29 is omitted to align all years to a common 365-day calendar. Missing daily values are excluded rather than treated as zero. The pollution record is much shorter and the partial first year contributes only where data exists; its seasonal averages should be interpreted with particular care. Hover or focus on a chart to inspect values.</p></section>
+      <section><span class="section-kicker">04 / OPEN DATA</span><h2>Built to be shared<span class="accent">.</span></h2><p>Data is delivered by <a href="https://open-meteo.com/">Open-Meteo</a> under <a href="https://open-meteo.com/en/licence">its attribution and licensing terms</a>. The free API is intended for non-commercial use and is subject to rate limits; see the <a href="https://open-meteo.com/en/terms">terms of use</a> before deploying. Charts are made with <a href="https://d3js.org/">D3.js</a>. City coordinates are a small curated list included with this site.</p></section>
+    </div>
+  </main>
+  <footer><a class="brand footer-brand" href="index.html"><span class="brand-mark">✳</span> atmosphere<span class="brand-dot">.</span></a><p>Made for the curious, wherever you are.</p><a href="index.html">Explore the dashboard ↗</a></footer>
+</body>
+</html>

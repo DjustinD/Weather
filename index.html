@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111d32">
+  <meta name="description" content="Explore the seasonal rhythms of cities around the world with historical weather and air quality data.">
+  <title>Atmosphere | A city's climate, in perspective</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Atmosphere home"><span class="brand-mark" aria-hidden="true">✳</span> atmosphere<span class="brand-dot">.</span></a>
+    <nav aria-label="Main navigation">
+      <a class="nav-active" href="index.html" aria-current="page">The dashboard</a>
+      <a href="data-sources.html">Data &amp; methodology <span aria-hidden="true">↗</span></a>
+      <label class="language-switch"><span lang="en-CA">EN</span><input id="language-toggle" type="checkbox" role="switch" aria-label="Français (Canada) / English (Canada)"><span class="switch-track" aria-hidden="true"></span><span lang="fr-CA">FR</span></label>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> A LITTLE CONTEXT FOR THE FORECAST</div>
+          <h1>Every place has<br><em>a story in its weather.</em></h1>
+          <p>Look beyond today's forecast. Explore the patterns, seasons, and small surprises that shape a city's climate.</p>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="hero-art-caption">A DIFFERENT WAY TO<br>SEE THE WEATHER <span>↗</span></div></div>
+      </div>
+    </section>
+
+    <div class="page-content">
+      <section class="location-panel" aria-labelledby="location-heading">
+        <div class="location-intro"><span class="section-kicker">01 / SET THE SCENE</span><h2 id="location-heading">Find your place<span class="accent">.</span></h2><p>Choose a city to explore its seasonal signature.</p></div>
+        <div class="location-controls">
+          <label>CONTINENT <select id="continent"></select></label>
+          <label>COUNTRY <select id="country"></select></label>
+          <label>PROVINCE / STATE <select id="region"></select></label>
+          <label>MUNICIPALITY <select id="city"></select></label>
+        </div>
+      </section>
+
+      <section class="dashboard" aria-labelledby="dashboard-heading">
+        <div class="dashboard-heading">
+          <div><span class="section-kicker">02 / THE BIG PICTURE</span><h2 id="dashboard-heading">A year in <em id="place-name">Winnipeg</em><span class="accent">.</span></h2><p id="place-description">The rhythm of the seasons, revealed by decades of data.</p></div>
+          <div class="period-tag"><span class="period-icon">◷</span><div><span>WEATHER BASELINE</span><strong id="baseline">Last 50 complete years</strong></div></div>
+        </div>
+        <div class="explainer"><span class="explainer-icon">i</span><p>Each line shows the typical day of the year, smoothed over 31 days. The shaded band shows <strong>±1 standard deviation</strong> of the daily values in that window. <a href="data-sources.html#methodology">How to read these charts ↗</a></p></div>
+        <div class="chart-grid" id="chart-grid">
+          <article class="chart-card" data-metric="temperature"><div class="card-top"><div><span class="chart-index">01 / TEMPERATURE</span><h3>Feeling the seasons</h3><p>Daily mean temperature · °C</p></div><span class="metric-icon temperature-icon" aria-hidden="true">☼</span></div><div class="chart" role="img" aria-label="Seasonal daily mean temperature with standard deviation band"></div><div class="card-bottom"><span class="legend"><i></i> 31-day mean <i class="band-key"></i> ±1 standard deviation</span><span class="chart-coverage">Loading data…</span></div></article>
+          <article class="chart-card" data-metric="precipitation"><div class="card-top"><div><span class="chart-index">02 / PRECIPITATION</span><h3>When it rains &amp; snows</h3><p>Daily precipitation · mm / day</p></div><span class="metric-icon precipitation-icon" aria-hidden="true">☂</span></div><div class="chart" role="img" aria-label="Seasonal daily precipitation with standard deviation band"></div><div class="card-bottom"><span class="legend"><i></i> 31-day mean <i class="band-key"></i> ±1 standard deviation</span><span class="chart-coverage">Loading data…</span></div></article>
+          <article class="chart-card" data-metric="sunshine"><div class="card-top"><div><span class="chart-index">03 / SUNSHINE</span><h3>Chasing the light</h3><p>Daily sunshine duration · hours / day</p></div><span class="metric-icon sunshine-icon" aria-hidden="true">✳</span></div><div class="chart" role="img" aria-label="Seasonal daily sunshine duration with standard deviation band"></div><div class="card-bottom"><span class="legend"><i></i> 31-day mean <i class="band-key"></i> ±1 standard deviation</span><span class="chart-coverage">Loading data…</span></div></article>
+          <article class="chart-card" data-metric="wind"><div class="card-top"><div><span class="chart-index">04 / WIND</span><h3>Which way the wind blows</h3><p>Daily maximum wind speed · km/h</p></div><span class="metric-icon wind-icon" aria-hidden="true">≋</span></div><div class="chart" role="img" aria-label="Seasonal daily maximum wind speed with standard deviation band"></div><div class="card-bottom"><span class="legend"><i></i> 31-day mean <i class="band-key"></i> ±1 standard deviation</span><span class="chart-coverage">Loading data…</span></div></article>
+          <article class="chart-card pollution-card" data-metric="pollution"><div class="card-top"><div><span class="chart-index">05 / AIR QUALITY</span><h3>A breath of perspective</h3><p>Daily mean fine particulate matter (PM2.5) · µg/m³</p></div><span class="metric-icon pollution-icon" aria-hidden="true">◎</span></div><div class="chart" role="img" aria-label="Seasonal daily mean PM2.5 with standard deviation band"></div><div class="card-bottom"><span class="legend"><i></i> 31-day mean <i class="band-key"></i> ±1 standard deviation</span><span class="chart-coverage">Loading data…</span></div><p class="pollution-note">A shorter record, not a 50-year baseline. Global modeled air-quality data is available from August 2022.</p></article>
+          <aside class="insight-card"><span class="section-kicker">A NOTE ON THE NUMBERS</span><div class="insight-star">✳</div><h3>Weather is a story,<br><em>not a straight line.</em></h3><p>These are modeled historical estimates, not readings from a single weather station. Real days can fall well outside the shaded band.</p><a href="data-sources.html">Get to know the data <span>↗</span></a></aside>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite">Getting the bigger picture together…</p>
+        <button id="retry" class="retry" type="button" hidden>Try again</button>
+      </section>
+    </div>
+  </main>
+  <footer><a class="brand footer-brand" href="index.html"><span class="brand-mark">✳</span> atmosphere<span class="brand-dot">.</span></a><p>Made for the curious, wherever you are.</p><a href="data-sources.html">Sources &amp; methodology ↗</a></footer>
+</body>
+</html>
