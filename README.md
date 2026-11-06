@@ -8,8 +8,13 @@ From the project directory, run `python -m http.server 8000` and visit `http://l
 
 ## Publish on GitHub Pages
 
-Push these files to a GitHub repository. In **Settings → Pages**, choose **Deploy from a branch**, select the branch and `/ (root)` folder, then save. All site links and assets are relative, so the site also works under a repository subpath. The free Open-Meteo API is for non-commercial use and is subject to rate limits; review its [terms](https://open-meteo.com/en/terms) before deployment.
+1. Push these files to the public GitHub repository `DjustinD/Weather`.
+2. In the repository, open **Settings → Pages**. Under **Build and deployment**, choose **Deploy from a branch**.
+3. Select the branch containing the site (for example, `main`) and the **/ (root)** folder, then save.
+4. Once GitHub Pages finishes deploying, visit **[https://djustind.github.io/Weather/](https://djustind.github.io/Weather/)**. The Pages settings page shows the deployment status and published URL.
+
+All site links and assets are relative, so they work under the `/Weather/` repository subpath. The free Open-Meteo API is for non-commercial use and is subject to rate limits; review its [terms](https://open-meteo.com/en/terms) before deployment.
 
 ## Test
 
-Run `node --test tests\data.test.mjs` with Node.js 20 or later. To add cities, edit `assets/js/locations.js` and provide a continent, country, region, city, and approximate coordinates.
+Run `npm test` with Node.js 20 or later. To add cities, edit `assets/js/locations.js` and provide a continent, country, region, city, and approximate coordinates. Add French translations for any location names that differ in `assets/js/i18n.js`.

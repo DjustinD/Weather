@@ -1,3 +1,5 @@
+import { locale, text } from "./i18n.js";
+
 const colors = {
   temperature: "#df815f",
   precipitation: "#608da2",
@@ -13,8 +15,8 @@ export function drawChart(container, profile, metric, unit) {
   const valid = profile.filter(d => d.mean !== null);
   container.replaceChildren();
   if (!valid.length) {
-    container.textContent = "No data available for this period.";
-    container.classList.add("chart-message");
+    container.setAttribute("aria-label", text().chartLabels[metric]);
+    showChartMessage(container, text().noData);
     return false;
   }
   container.classList.remove("chart-message");
@@ -27,9 +29,9 @@ export function drawChart(container, profile, metric, unit) {
   svg.append("g").attr("class", "grid").attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y).ticks(4).tickSize(-(width - margin.left - margin.right)).tickFormat(""));
   svg.append("g").attr("class", "axis").attr("transform", `translate(${margin.left},0)`)
-    .call(d3.axisLeft(y).ticks(4).tickSize(0).tickPadding(9));
+    .call(d3.axisLeft(y).ticks(4).tickSize(0).tickPadding(9).tickFormat(value => new Intl.NumberFormat(locale(), { maximumFractionDigits: 2 }).format(value)));
   const monthTicks = [0, 59, 120, 181, 243, 304];
-  const months = ["JAN", "MAR", "MAY", "JUL", "SEP", "NOV"];
+  const months = monthTicks.map(day => new Intl.DateTimeFormat(locale(), { month: "short", timeZone: "UTC" }).format(new Date(Date.UTC(2001, 0, day + 1))).toLocaleUpperCase(locale()));
   svg.append("g").attr("class", "axis month-axis").attr("transform", `translate(0,${height - margin.bottom})`)
     .call(d3.axisBottom(x).tickValues(monthTicks).tickFormat((_, i) => months[i]).tickSize(0).tickPadding(14));
   const defined = d => d.mean !== null;
@@ -50,16 +52,17 @@ export function drawChart(container, profile, metric, unit) {
   container.parentElement.querySelector(".chart-live")?.remove();
   container.after(live);
   container.tabIndex = 0;
-  container.setAttribute("aria-label", `${container.getAttribute("aria-label").split(". Use left")[0]}. Use left and right arrow keys to inspect dates.`);
+  container.setAttribute("aria-label", `${text().chartLabels[metric]}. ${text().keyboard}`);
   let selected = 0;
   function show(day) {
     selected = Math.max(0, Math.min(364, day));
     const point = profile[selected];
     if (point.mean === null) { marker.style("display", "none"); output.hidden = true; return; }
-    const date = new Date(Date.UTC(2001, 0, selected + 1)).toLocaleDateString("en", { month: "short", day: "numeric", timeZone: "UTC" });
+    const date = new Date(Date.UTC(2001, 0, selected + 1)).toLocaleDateString(locale(), { month: "short", day: "numeric", timeZone: "UTC" });
+    const number = value => new Intl.NumberFormat(locale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(value);
     marker.style("display", null).attr("transform", `translate(${x(selected)},0)`);
     marker.select("circle").attr("cy", y(point.mean));
-    output.textContent = `${date} · ${point.mean.toFixed(1)} ${unit} (±1 SD: ${point.lower.toFixed(1)}–${point.upper.toFixed(1)})`;
+    output.textContent = `${date} · ${number(point.mean)} ${unit} (±1 ${text().deviation} : ${number(point.lower)}–${number(point.upper)})`;
     output.hidden = false;
     if (document.activeElement === container) live.textContent = output.textContent;
   }

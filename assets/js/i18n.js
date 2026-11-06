@@ -122,7 +122,7 @@ export function errorText(error) {
   const http = error.message.match(/HTTP (\d+)/);
   if (http) return text().httpError(http[1]);
   if (error.message.includes("unexpected format")) return text().formatError;
-  return text().networkError;
+  return `${text().networkError} (${error.message})`;
 }
 
 function applyLanguage() {
